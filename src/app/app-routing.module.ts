@@ -29,11 +29,7 @@ const routes: Routes = [
       //   loadChildren: () => import('./note/note.module').then( m => m.NotePageModule)
       // }
     ],
-  },
-  {
-    path: 'speaker',
-    loadChildren: () => import('./pages/speaker/speaker.module').then( m => m.SpeakerPageModule)
-  },
+  }
 ];
 
 @NgModule({

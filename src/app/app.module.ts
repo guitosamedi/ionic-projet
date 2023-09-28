@@ -9,11 +9,12 @@ import {HeaderComponent} from "./components/header/header.component";
 import {TabsComponent} from "./components/tabs/tabs.component";
 import {FooterComponent} from "./components/footer/footer.component";
 import { AppRoutingModule } from './app-routing.module';
+import {HttpClientModule} from "@angular/common/http";
 
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, TabsComponent, FooterComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
   providers: [{provide: RouteReuseStrategy, useClass: IonicRouteStrategy}],
   bootstrap: [AppComponent]
 })

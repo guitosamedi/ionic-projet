@@ -5,7 +5,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content >
   <div id="container">
     <ion-grid>
       <ion-row>
@@ -19,8 +19,20 @@
             <h1>Présentateurs</h1>
           </ion-text>
           <ion-text>
-            Voir les <a [routerLink]="['/note']">notes</a>
+            Voir les <a [routerLink]="['/notes']">notes</a>
           </ion-text>
+          <ion-list [inset]="true">
+            <ion-item [button]="true" *ngFor="let sp of speakers; let index">
+              <ion-avatar slot="start">
+<!--                <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />-->
+              <img src="{{sp.photoUrl}}" alt="{{sp.name}}" />
+              </ion-avatar>
+              <ion-label>{{ sp.name }}</ion-label>
+              <div class="metadata-end-wrapper" slot="end">
+                <ion-icon color="medium" name="chevron-forward"></ion-icon>
+              </div>
+            </ion-item>
+          </ion-list>
         </ion-col>
       </ion-row>
     </ion-grid>
