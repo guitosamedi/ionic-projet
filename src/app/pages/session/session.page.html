@@ -1,11 +1,6 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-img alt="Conférence Logo" class="logo" src="assets/logo.png"></ion-img>
-<!--    <ion-title>Sessions</ion-title>-->
-  </ion-toolbar>
-</ion-header>
+<app-header [title]="pageTitle"></app-header>
 
-<ion-content >
+<ion-content [fullscreen]="true">
   <div id="container">
     <ion-grid>
       <ion-row>
@@ -15,21 +10,27 @@
       <ion-row>
         <ion-col>
           <ion-text>
-            <h1>Sessions</h1>
+            <h1 >{{pageTitle}}</h1>
           </ion-text>
           <ion-text>
             Voir les <a [routerLink]="['/speaker']">présentateurs</a>
           </ion-text>
           <ion-list [inset]="true">
-            <ion-item [button]="true" *ngFor="let se of sessions; let index">
+            <ion-item [button]="true" *ngFor="let se of sessions;" (click)="navigateToSessionDetail(se.id)">
               <ion-avatar slot="start">
-                <img src="{{se.image}}" alt="{{se.title}}" />
+                <ion-img *ngIf="se.image" [src]="_imgUrl + se.image" alt="{{se.title}}"></ion-img>
+                <ion-img *ngIf="!se.image" src="assets/no-img.png" alt="{{se.title}}"></ion-img>
               </ion-avatar>
               <ion-label>{{ se.title }}</ion-label>
-              <div class="metadata-end-wrapper" slot="end">
-<!--                <ion-note color="medium">Note test</ion-note>-->
-                <ion-icon color="medium" name="chevron-forward"></ion-icon>
-              </div>
+<!--              <ion-nav-link [routerLink]="['/session', se.id]">-->
+                <ion-button fill="clear" slot="end">
+                  <ion-icon name="chevron-forward-outline"></ion-icon>
+                </ion-button>
+<!--              </ion-nav-link>-->
+<!--              <div class="metadata-end-wrapper" slot="end">-->
+<!--&lt;!&ndash;                <ion-note color="medium">Note test</ion-note>&ndash;&gt;-->
+<!--                <ion-icon color="medium" name="chevron-forward"></ion-icon>-->
+<!--              </div>-->
             </ion-item>
           </ion-list>
         </ion-col>

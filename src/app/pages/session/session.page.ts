@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {SessionService} from "../../shared/services/session.service";
 import {Session} from "../../shared/models/session";
-import { InfiniteScrollCustomEvent } from '@ionic/angular';
-import {DetailPage} from "./detail/detail.page";
 import {environment} from "../../../environments/environment";
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-session.ts',
@@ -15,11 +15,13 @@ export class SessionPage implements OnInit {
 
   sessions: Session[] = [];
   loading: boolean = true;
-  sessionDetail = DetailPage;
-  private _baseUrl = environment.urlApi.sessions;
+  pageTitle = 'Sessions';
+
+  public _imgUrl = environment.api.images;
 
   constructor(
-    private _sessionService: SessionService
+    private _sessionService: SessionService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -30,21 +32,10 @@ export class SessionPage implements OnInit {
     (await this._sessionService
       .findAll())
       .subscribe((result) => (this.sessions = result));
-    await console.log(this.sessions);
   }
 
-  // private _init() {
-  //   // Liste des sessions
-  //   this._sessionService.findAllSession().subscribe(
-  //     (sessionReceived) => {
-  //       this.sessions = sessionReceived;
-  //       console.log(sessionReceived);
-  //       this.loading = false;
-  //     },
-  //     (error) => {
-  //       console.error("Erreur lors de la récupération des sessions :", error);
-  //       this.loading = false;
-  //     }
-  //   );
-  // }
+  navigateToSessionDetail(sessionId: number) {
+    this.router.navigate(['/session', sessionId]);
+  }
+
 }

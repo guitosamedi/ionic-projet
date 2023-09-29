@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {environment} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import {map, Observable} from "rxjs";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {catchError, map, Observable, throwError} from "rxjs";
 import {Speaker} from "../models/speaker";
 
 @Injectable({
@@ -9,11 +9,25 @@ import {Speaker} from "../models/speaker";
 })
 export class SpeakerService {
 
-  private _baseUrl = environment.urlApi.speakers;
+  private _baseUrl = environment.api.url;
   constructor(private _http: HttpClient) { }
-  findAll(): Observable<Speaker[]>{
-    return this._http.get<Speaker[]>(this._baseUrl).pipe(
-      map(response =>Object.values(response))
+
+  public findAll(): Observable<Speaker[]> {
+    return this._http.get<Speaker[]>(`${this._baseUrl}/speakers`).pipe(
+      map(response => Object.values(response)),
+      catchError(this.handleError)
     );
   }
+
+  public findById(id: number): Observable<Speaker | null> {
+    return this._http.get<Speaker>(`${this._baseUrl}/speakers`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    console.error('Une erreur s\'est produite :', error);
+    return throwError(() => new Error('Une erreur s\'est produite.'));
+  }
+
 }

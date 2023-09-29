@@ -1,11 +1,6 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-img alt="Conférence Logo" class="logo" src="assets/logo.png"></ion-img>
-<!--    <ion-title>Présentateurs</ion-title>-->
-  </ion-toolbar>
-</ion-header>
+<app-header [title]="pageTitle"></app-header>
 
-<ion-content >
+<ion-content [fullscreen]="true">
   <div id="container">
     <ion-grid>
       <ion-row>
@@ -24,8 +19,8 @@
           <ion-list [inset]="true">
             <ion-item [button]="true" *ngFor="let sp of speakers; let index">
               <ion-avatar slot="start">
-<!--                <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />-->
-              <img src="{{sp.photoUrl}}" alt="{{sp.name}}" />
+                <ion-img *ngIf="sp.photoUrl" [src]="_imgUrl + sp.photoUrl" alt="{{sp.name}}"></ion-img>
+                <ion-img *ngIf="!sp.photoUrl" src="assets/no-img.png" alt="{{sp.name}}"></ion-img>
               </ion-avatar>
               <ion-label>{{ sp.name }}</ion-label>
               <div class="metadata-end-wrapper" slot="end">

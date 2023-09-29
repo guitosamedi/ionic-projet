@@ -1,6 +1,10 @@
-<ion-toolbar>
-  <ion-buttons slot="start">
-    <ion-back-button></ion-back-button>
-  </ion-buttons>
-  <ion-title class="ion-text-center">{{title}}</ion-title>
-</ion-toolbar>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+<!--          <ion-back-button></ion-back-button>-->
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-img alt="Conférence Logo" class="logo" src="assets/logo.png"></ion-img>
+<!--    <ion-title class="ion-text-center">{{title}}</ion-title>-->
+  </ion-toolbar>
+</ion-header>

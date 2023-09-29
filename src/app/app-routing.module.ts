@@ -18,7 +18,11 @@ const routes: Routes = [
       },
       {
         path: 'session',
-        loadChildren: () => import('./pages/session/session.module').then(m => m.SessionPageModule)
+        loadChildren: () => import('./pages/session/session.module').then(m => m.SessionPageModule),
+      },
+      {
+        path: 'session/:id',
+        loadChildren: () => import('./pages/session-detail/session-detail.module').then(m => m.SessionDetailPageModule)
       },
       {
         path: 'speaker',
