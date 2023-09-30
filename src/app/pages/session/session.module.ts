@@ -15,7 +15,6 @@ import { SessionPage } from './session.page';
     IonicModule,
     SessionPageRoutingModule,
     SharedModule,
-
   ],
   declarations: [SessionPage]
 })

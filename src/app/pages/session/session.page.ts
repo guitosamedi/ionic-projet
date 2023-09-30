@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SessionService} from "../../shared/services/session.service";
 import {Session} from "../../shared/models/session";
 import {environment} from "../../../environments/environment";
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -14,7 +14,6 @@ import { Router } from '@angular/router';
 export class SessionPage implements OnInit {
 
   sessions: Session[] = [];
-  loading: boolean = true;
   pageTitle = 'Sessions';
 
   public _imgUrl = environment.api.images;
@@ -22,20 +21,21 @@ export class SessionPage implements OnInit {
   constructor(
     private _sessionService: SessionService,
     private router: Router
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this._init();
   }
 
-  private async _init() {
-    (await this._sessionService
-      .findAll())
-      .subscribe((result) => (this.sessions = result));
+  goToSessionDetail(sessionId: number) {
+    this.router.navigate(['/session', sessionId]);
   }
 
-  navigateToSessionDetail(sessionId: number) {
-    this.router.navigate(['/session', sessionId]);
+  private _init() {
+    (this._sessionService
+      .findAll())
+      .subscribe((result) => (this.sessions = result));
   }
 
 }

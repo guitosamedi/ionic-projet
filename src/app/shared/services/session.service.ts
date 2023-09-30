@@ -21,7 +21,12 @@ export class SessionService {
   }
 
   public findById(id: number): Observable<Session | null> {
-    return this._http.get<Session>(`${this._baseUrl}/sessions`).pipe(
+    return this._http.get<{ [key: number]: Session }>(`${this._baseUrl}/sessions`).pipe(
+      map(response => {
+        const array = Object.values(response);
+        const session = array.find(session => session.id === id);
+        return session || null;
+      }),
       catchError(this.handleError)
     );
   }

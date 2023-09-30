@@ -28,6 +28,10 @@ const routes: Routes = [
         path: 'speaker',
         loadChildren: () => import('./pages/speaker/speaker.module').then(m => m.SpeakerPageModule)
       },
+      {
+        path: 'speaker/:id',
+        loadChildren: () => import('./pages/speaker-detail/speaker-detail.module').then( m => m.SpeakerDetailPageModule)
+      }
       // {
       //   path: 'note',
       //   loadChildren: () => import('./note/note.module').then( m => m.NotePageModule)
