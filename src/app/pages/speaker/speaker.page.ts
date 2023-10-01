@@ -16,15 +16,16 @@ export class SpeakerPage implements OnInit {
   pageTitle = 'Présentateurs';
   public _imgUrl = environment.api.images;
 
-  constructor(private _speakerService: SpeakerService,
-              private router: Router) {
-  }
+  constructor(
+    private _speakerService: SpeakerService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this._init();
   }
 
-  goToSpeakerDetail(speakerId: number) {
+  goToSpeakerDetail(speakerId: string) {
     this.router.navigate(['/speaker', speakerId]);
   }
 

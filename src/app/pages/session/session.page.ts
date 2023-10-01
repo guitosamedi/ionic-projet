@@ -28,7 +28,7 @@ export class SessionPage implements OnInit {
     this._init();
   }
 
-  goToSessionDetail(sessionId: number) {
+  goToSessionDetail(sessionId: string) {
     this.router.navigate(['/session', sessionId]);
   }
 

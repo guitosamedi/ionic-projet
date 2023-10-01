@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SessionService} from '../../shared/services/session.service';
 import {Session} from '../../shared/models/session';
 import {SpeakerService} from '../../shared/services/speaker.service';
 import {environment} from "../../../environments/environment";
-import {Speaker} from "../../shared/models/speaker";
+
 
 @Component({
   selector: 'app-session-detail',
@@ -13,67 +13,55 @@ import {Speaker} from "../../shared/models/speaker";
 })
 export class SessionDetailPage implements OnInit {
   session: Session | null = null;
-  speakers: Speaker[] = [];
+  sessionSpeakers: any[] = [];
   pageTitle = 'Session';
   public _imgUrl = environment.api.images;
 
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _sessionService: SessionService,
-    private _speakerService: SpeakerService
-  ) {
-  }
+    private _speakerService: SpeakerService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this._init();
   }
-// TODO = Fix: affichage detail speakers par session ID
+
+  goToSpeakerDetail(speakerId: string) {
+    this.router.navigate(['/speaker', speakerId]);
+  }
 
   private _init() {
     this._activatedRoute.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id !== null) {
-        // Forcer le paramètre ID en type number
-        const sessionId = +id;
-        if (!isNaN(sessionId)) {
-          // Récupérer les détails de la session par ID
-          this._sessionService.findById(sessionId).subscribe(result => {
-            this.session = result;
-            console.log('Details de la session:', result);
-            // On vérifie s'il y a une session
-            if (result) {
-              // On vérifie s'il y a des speakers
-              if (result.speakers && Array.isArray(result.speakers)) {
-                // Récupérer la liste de tous les speakers
-                this._speakerService.findAll().subscribe(speakers => {
-                  console.log('ID de la session:', result.id);
-                  console.log('Orateurs de la session:', result.speakers);
-                  // Initialiser la liste des détails des speakers liés à la session
-                  this.speakers = speakers;
-                  if (result.speakers) {
-                    // Utiliser une boucle for...of pour itérer sur les IDs des speakers
-                    for (const id of result.speakers) {
-                      // Forcer le paramètre ID en type number
-                      const idSpeaker = +id;
-                      console.log('Recherche du présentateur avec ID :', idSpeaker);
-                      if (!isNaN(idSpeaker)) {
-                        const speakerDetail = speakers.find(speaker => speaker.id === idSpeaker);
-                        if (speakerDetail) {
-                          console.log('Présentateur trouvé :', speakerDetail);
-                          speakers.push(speakerDetail);
-                        } else {
-                          console.log('Aucun présentateur trouvé pour l\'ID :', idSpeaker);
-                        }
-                      }
-                    }
+        this._sessionService.findById(id).subscribe(result => {
+          this.session = result;
+          if (result && Array.isArray(result.speakers)) {
+            // Récupérer la liste des IDs des speakers de la session
+            const speakerIds = result.speakers;
+
+            // Récupérer la liste de tous les speakers depuis le service speakers
+            this._speakerService.findAll().subscribe(speakers => {
+              // Initialiser un tableau pour stocker les valeurs trouvées
+              this.sessionSpeakers = [];
+
+              // Parcourir la liste des IDs des speakers et trouver les correspondances
+              for (const speakerId of speakerIds) {
+                // Forcer le paramètre ID en type number
+                const id = +speakerId;
+                if (!isNaN(id)) {
+                  const matchingValue = speakers.find(speaker => speaker.id === id.toString());
+                  if (matchingValue) {
+                    this.sessionSpeakers.push(matchingValue);
                   }
-                });
+                }
               }
-            }
-          });
-        }
+            });
+          }
+        });
       }
     });
   }
-
 }

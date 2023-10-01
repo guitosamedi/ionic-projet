@@ -1,6 +1,6 @@
 export class Speaker {
   constructor(
-    public id: number,
+    public id: string,
     public name?: string,
     public photoUrl?: string,
     public shortBio?: string,

@@ -23,9 +23,9 @@
                 <ion-img *ngIf="!speaker.photoUrl" src="assets/no-img.png" alt="{{speaker.name}}"></ion-img>
               </ion-avatar>
               <ion-label>{{ speaker.name }}</ion-label>
-              <div class="metadata-end-wrapper" slot="end">
-                <ion-icon color="medium" name="chevron-forward"></ion-icon>
-              </div>
+              <ion-button fill="clear" slot="end">
+                <ion-icon name="chevron-forward-outline"></ion-icon>
+              </ion-button>
             </ion-item>
           </ion-list>
         </ion-col>

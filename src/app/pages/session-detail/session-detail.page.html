@@ -3,18 +3,17 @@
   <div id="container">
     <ion-grid>
       <ion-row>
-        <ion-col size="12" >
+        <ion-col size="12">
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
           <ion-text>
-            <h1 >{{pageTitle}}</h1>
+            <h1>{{pageTitle}}</h1>
           </ion-text>
-          <div *ngIf="!session">Chargement en cours...</div>
           <ion-card *ngIf="session">
             <ion-img *ngIf="session.image" [src]="_imgUrl + session.image" alt="{{ session.title }}"></ion-img>
-            <ion-img *ngIf="!session.image" src="assets/no-img.png" alt="{{ session.title }}"></ion-img>
+            <ion-img *ngIf="!session.image" alt="{{ session.title }}" src="assets/no-img.png"></ion-img>
             <ion-card-header>
               <ion-card-title>{{ session.title }}</ion-card-title>
               <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
@@ -22,20 +21,21 @@
 
             <ion-card-content>
               <ion-text>{{ session.description }}</ion-text>
-              <ion-list *ngIf="speakers && speakers.length > 0">
-                <ion-list-header>Orateurs :</ion-list-header>
-                <ion-item *ngFor="let speaker of speakers">
+              <ion-list *ngIf="sessionSpeakers && sessionSpeakers.length > 0" [inset]="true">
+                <ion-list-header><h2>Présentateurs</h2></ion-list-header>
+                <ion-item *ngFor="let speaker of sessionSpeakers" [button]="true" (click)="goToSpeakerDetail(speaker.id)">
                   <ion-avatar slot="start">
-                    <ion-img *ngIf="speaker.photoUrl" [src]="_imgUrl + speaker.photoUrl" alt="{{ speaker.name }}"></ion-img>
-                    <ion-img *ngIf="!speaker.photoUrl" src="assets/no-img.png" alt="{{ speaker.name }}"></ion-img>
+                    <ion-img *ngIf="speaker.photoUrl" [src]="_imgUrl + speaker.photoUrl"
+                             alt="{{ speaker.name }}"></ion-img>
+                    <ion-img *ngIf="!speaker.photoUrl" alt="{{ speaker.name }}" src="assets/no-img.png"></ion-img>
                   </ion-avatar>
-                  <ion-label>
-                    <h2>{{ speaker.name }}</h2>
-                    <p>{{ speaker.company }}</p>
-                  </ion-label>
+                  <ion-label>{{ speaker.name }}</ion-label>
+                  <ion-button fill="clear" slot="end">
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                  </ion-button>
                 </ion-item>
               </ion-list>
-              <ion-text *ngIf="speakers.length === 0">Aucun présentateur pour cette session.</ion-text>
+              <ion-text *ngIf="sessionSpeakers.length === 0">Aucun présentateur pour cette session.</ion-text>
             </ion-card-content>
           </ion-card>
         </ion-col>

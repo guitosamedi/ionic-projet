@@ -20,16 +20,25 @@ export class SessionService {
     );
   }
 
-  public findById(id: number): Observable<Session | null> {
-    return this._http.get<{ [key: number]: Session }>(`${this._baseUrl}/sessions`).pipe(
-      map(response => {
-        const array = Object.values(response);
-        const session = array.find(session => session.id === id);
-        return session || null;
-      }),
+  /// Numeric ID
+  // public findById(id: number): Observable<Session | null> {
+  //   return this._http.get<{ [key: number]: Session }>(`${this._baseUrl}/sessions`).pipe(
+  //     map(response => {
+  //       const array = Object.values(response);
+  //       const session = array.find(session => session.id === id);
+  //       return session || null;
+  //     }),
+  //     catchError(this.handleError)
+  //   );
+  // }
+
+  public findById(id: string): Observable<Session | null> {
+    return this._http.get<{ [key: string]: Session }>(`${this._baseUrl}/sessions`).pipe(
+      map(session => session[id] || null),
       catchError(this.handleError)
     );
   }
+
 
   private handleError(error: HttpErrorResponse) {
     console.error('Une erreur s\'est produite :', error);
